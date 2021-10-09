@@ -40,7 +40,7 @@ public class BoardController {
 
         Board saved = boardService.saveBoard(board, member);
 
-        BoardResponseDto responseDto = boardConverter.convertBoardResponseDto(saved);
+        BoardResponseDto responseDto = getResponseDto(saved);
         return ApiResponse.ok(BoardResponseStatus.BOARD_CREATION_SUCCESS.getMessage(), responseDto);
     }
 
@@ -58,7 +58,7 @@ public class BoardController {
     public ApiResponse<BoardResponseDto> lookupBoard(@PathVariable Long boardId) {
         Board board = boardService.findOne(boardId);
 
-        BoardResponseDto responseDto = boardConverter.convertBoardResponseDto(board);
+        BoardResponseDto responseDto = getResponseDto(board);
         return ApiResponse.ok(BoardResponseStatus.BOARD_LOOKUP_SUCCESS.getMessage(), responseDto);
     }
 
@@ -67,8 +67,12 @@ public class BoardController {
     public ApiResponse<BoardResponseDto> updateBoard(@Validated @RequestBody BoardUpdateDto boardUpdateDto, @PathVariable Long boardId) {
 
         Board updatedBoard = boardService.updateBoard(boardId, boardUpdateDto);
-        BoardResponseDto responseDto = boardConverter.convertBoardResponseDto(updatedBoard);
+        BoardResponseDto responseDto = getResponseDto(updatedBoard);
 
         return ApiResponse.ok(BoardResponseStatus.BOARD_UPDATE_SUCCESS.getMessage(), responseDto);
+    }
+
+    private BoardResponseDto getResponseDto(Board updatedBoard) {
+        return boardConverter.convertBoardResponseDto(updatedBoard);
     }
 }

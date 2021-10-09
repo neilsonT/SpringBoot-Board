@@ -8,6 +8,7 @@ import java.io.Serializable;
 @Builder
 @Getter
 public class BoardResponseDto implements Serializable {
+    private final Long id;
     private final String title;
     private final String content;
 }
