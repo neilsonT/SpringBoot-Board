@@ -4,9 +4,12 @@ import com.programmers.jpaboard.DateEntity;
 import com.programmers.jpaboard.board.domian.vo.Content;
 import com.programmers.jpaboard.board.domian.vo.Title;
 import com.programmers.jpaboard.member.domain.Member;
+import com.programmers.jpaboard.reply.domain.Reply;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -29,6 +32,9 @@ public class Board extends DateEntity {
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)   // TODO: 로그인한 Member를 관리할 수 있게 되면 cascade 삭제
     @JoinColumn(name = "member_id", referencedColumnName = "member_id")
     private Member member;
+
+    @OneToMany(mappedBy = "board")
+    private List<Reply> replies = new ArrayList<>();
 
     @Builder
     public Board(String title, String content) {
@@ -63,5 +69,9 @@ public class Board extends DateEntity {
 
     public Member getMember() {
         return member;
+    }
+
+    public List<Reply> getReplies() {
+        return replies;
     }
 }

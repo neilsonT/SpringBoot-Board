@@ -5,6 +5,7 @@ import com.programmers.jpaboard.board.domian.Board;
 import com.programmers.jpaboard.member.domain.vo.Age;
 import com.programmers.jpaboard.member.domain.vo.Hobby;
 import com.programmers.jpaboard.member.domain.vo.Name;
+import com.programmers.jpaboard.reply.domain.Reply;
 import lombok.*;
 
 import javax.persistence.*;
@@ -15,7 +16,6 @@ import java.util.stream.Collectors;
 @Entity
 @Table(name = "member")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
 @EqualsAndHashCode(of = "id")
 public class Member extends DateEntity {
 
@@ -36,6 +36,9 @@ public class Member extends DateEntity {
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.PERSIST, orphanRemoval = true)
     private final List<Board> boards = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.PERSIST, orphanRemoval = true)
+    private final List<Reply> replies = new ArrayList<>();
 
     @Builder
     public Member(String name, int age, List<String> hobbies) {
@@ -76,5 +79,9 @@ public class Member extends DateEntity {
 
     public List<Board> getBoards() {
         return boards;
+    }
+
+    public List<Reply> getReplies() {
+        return replies;
     }
 }
