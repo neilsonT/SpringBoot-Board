@@ -21,51 +21,37 @@ import java.util.stream.Collectors;
 public class BoardController {
 
     private final BoardService boardService;
-    private final BoardConverter boardConverter;
 
-    public BoardController(BoardService boardService, BoardConverter boardConverter) {
+    public BoardController(BoardService boardService) {
         this.boardService = boardService;
-        this.boardConverter = boardConverter;
     }
 
     @PostMapping
     public ApiResponse<BoardResponseDto> createBoard(@Valid @RequestBody BoardCreationDto boardCreationDto) {
-        Board board = boardConverter.convertBoardByCreation(boardCreationDto);
+        BoardResponseDto responseDto = boardService.saveBoard(boardCreationDto);
 
-        Board saved = boardService.saveBoard(board);
-
-        BoardResponseDto responseDto = getResponseDto(saved);
         return ApiResponse.ok(BoardResponseStatus.BOARD_CREATION_SUCCESS.getMessage(), responseDto);
     }
 
     @GetMapping
     public ApiResponse<List<BoardResponseDto>> lookupAllBoard() {
-        List<BoardResponseDto> result = boardService.findAll().stream()
-                .map(boardConverter::convertBoardResponseDto)
-                .collect(Collectors.toList());
+        List<BoardResponseDto> result = boardService.findAll();
 
         return ApiResponse.ok(BoardResponseStatus.BOARD_LOOKUP_ALL_SUCCESS.getMessage(), result);
     }
 
     @GetMapping("/{boardId}")
     public ApiResponse<BoardResponseDto> lookupBoard(@PathVariable Long boardId) {
-        Board board = boardService.findOne(boardId);
+        BoardResponseDto responseDto = boardService.findOne(boardId);
 
-        BoardResponseDto responseDto = getResponseDto(board);
         return ApiResponse.ok(BoardResponseStatus.BOARD_LOOKUP_SUCCESS.getMessage(), responseDto);
     }
 
 
     @PutMapping("/{boardId}")
     public ApiResponse<BoardResponseDto> updateBoard(@Validated @RequestBody BoardUpdateDto boardUpdateDto, @PathVariable Long boardId) {
-
-        Board updatedBoard = boardService.updateBoard(boardId, boardUpdateDto);
-        BoardResponseDto responseDto = getResponseDto(updatedBoard);
+        BoardResponseDto responseDto = boardService.updateBoard(boardId, boardUpdateDto);
 
         return ApiResponse.ok(BoardResponseStatus.BOARD_UPDATE_SUCCESS.getMessage(), responseDto);
-    }
-
-    private BoardResponseDto getResponseDto(Board updatedBoard) {
-        return boardConverter.convertBoardResponseDto(updatedBoard);
     }
 }
