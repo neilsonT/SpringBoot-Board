@@ -51,7 +51,7 @@ class BoardServiceTest {
                 .build();
 
         // When
-        Board actual = boardService.saveBoard(board, member);
+        Board actual = boardService.saveBoard(board);
 
         // Then
         assertThat(actual).isEqualTo(board);
@@ -81,7 +81,7 @@ class BoardServiceTest {
                 .title("newTitle")
                 .content("newContent")
                 .build();
-        boardService.saveBoard(newBoard, member);
+        boardService.saveBoard(newBoard);
         when(boardRepository.findAll()).thenReturn(List.of(board, newBoard));
 
         // When
@@ -104,7 +104,7 @@ class BoardServiceTest {
         when(boardRepository.save(board)).thenReturn(board);
         when(boardRepository.findById(board.getId())).thenReturn(Optional.of(board));
 
-        boardService.saveBoard(board, member);
+        boardService.saveBoard(board);
 
         // When
         Board actual = boardService.updateBoard(board.getId(), boardUpdateDto);

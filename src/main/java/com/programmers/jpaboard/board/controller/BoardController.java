@@ -32,14 +32,7 @@ public class BoardController {
     public ApiResponse<BoardResponseDto> createBoard(@Valid @RequestBody BoardCreationDto boardCreationDto) {
         Board board = boardConverter.convertBoardByCreation(boardCreationDto);
 
-        // Todo: 로그인한 Member를 관리할 수 있게 되면 삭제
-        Member member = Member.builder()
-                .age(10)
-                .name("name")
-                .hobbies(List.of("Table Tennis"))
-                .build();
-
-        Board saved = boardService.saveBoard(board, member);
+        Board saved = boardService.saveBoard(board);
 
         BoardResponseDto responseDto = getResponseDto(saved);
         return ApiResponse.ok(BoardResponseStatus.BOARD_CREATION_SUCCESS.getMessage(), responseDto);
@@ -47,8 +40,7 @@ public class BoardController {
 
     @GetMapping
     public ApiResponse<List<BoardResponseDto>> lookupAllBoard() {
-        List<Board> boards = boardService.findAll();
-        List<BoardResponseDto> result = boards.stream()
+        List<BoardResponseDto> result = boardService.findAll().stream()
                 .map(boardConverter::convertBoardResponseDto)
                 .collect(Collectors.toList());
 

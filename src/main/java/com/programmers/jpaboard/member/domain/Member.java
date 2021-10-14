@@ -34,12 +34,6 @@ public class Member extends DateEntity {
     @JoinColumn(name = "member_id")
     private List<Hobby> hobbies = new ArrayList<>();
 
-    @OneToMany(mappedBy = "member", cascade = CascadeType.PERSIST, orphanRemoval = true)
-    private final List<Board> boards = new ArrayList<>();
-
-    @OneToMany(mappedBy = "member", cascade = CascadeType.PERSIST, orphanRemoval = true)
-    private final List<Reply> replies = new ArrayList<>();
-
     @Builder
     public Member(String name, int age, List<String> hobbies) {
         this.name = new Name(name);
@@ -75,13 +69,5 @@ public class Member extends DateEntity {
         return hobbies.stream()
                 .map(Hobby::getHobby)
                 .collect(Collectors.toList());
-    }
-
-    public List<Board> getBoards() {
-        return boards;
-    }
-
-    public List<Reply> getReplies() {
-        return replies;
     }
 }

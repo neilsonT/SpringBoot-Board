@@ -119,7 +119,7 @@ class BoardControllerTest {
                 .hobbies(List.of("Table Tennis"))
                 .build();
 
-        boardService.saveBoard(board, member);
+        boardService.saveBoard(board);
     }
 
     @Test

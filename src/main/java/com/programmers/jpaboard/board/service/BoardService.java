@@ -20,17 +20,16 @@ public class BoardService {
     }
 
     @Transactional
-    public Board saveBoard(Board board, Member member) {
-        board.setMember(member);
+    public Board saveBoard(Board board) {
         return boardRepository.save(board);
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public List<Board> findAll() {
         return boardRepository.findAll();
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public Board findOne(Long boardId) {
         return boardRepository.findById(boardId).orElseThrow(() -> new BoardNotFoundException(boardId));
     }
