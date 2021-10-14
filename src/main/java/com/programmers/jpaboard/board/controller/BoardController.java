@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
+@RequestMapping("/api/v1/boards")
 public class BoardController {
 
     private final BoardService boardService;
@@ -27,7 +28,7 @@ public class BoardController {
         this.boardConverter = boardConverter;
     }
 
-    @PostMapping("/boards")
+    @PostMapping
     public ApiResponse<BoardResponseDto> createBoard(@Valid @RequestBody BoardCreationDto boardCreationDto) {
         Board board = boardConverter.convertBoardByCreation(boardCreationDto);
 
@@ -44,7 +45,7 @@ public class BoardController {
         return ApiResponse.ok(BoardResponseStatus.BOARD_CREATION_SUCCESS.getMessage(), responseDto);
     }
 
-    @GetMapping("/boards")
+    @GetMapping
     public ApiResponse<List<BoardResponseDto>> lookupAllBoard() {
         List<Board> boards = boardService.findAll();
         List<BoardResponseDto> result = boards.stream()
@@ -54,7 +55,7 @@ public class BoardController {
         return ApiResponse.ok(BoardResponseStatus.BOARD_LOOKUP_ALL_SUCCESS.getMessage(), result);
     }
 
-    @GetMapping("/boards/{boardId}")
+    @GetMapping("/{boardId}")
     public ApiResponse<BoardResponseDto> lookupBoard(@PathVariable Long boardId) {
         Board board = boardService.findOne(boardId);
 
@@ -63,7 +64,7 @@ public class BoardController {
     }
 
 
-    @PostMapping("/boards/{boardId}")
+    @PutMapping("/{boardId}")
     public ApiResponse<BoardResponseDto> updateBoard(@Validated @RequestBody BoardUpdateDto boardUpdateDto, @PathVariable Long boardId) {
 
         Board updatedBoard = boardService.updateBoard(boardId, boardUpdateDto);

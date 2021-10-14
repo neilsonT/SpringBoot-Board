@@ -11,16 +11,18 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/api/v1/members")
 public class MemberController {
 
     private final MemberService memberService;
     private final MemberConverter memberConverter;
 
-    @PostMapping("/members")
+    @PostMapping
     public ApiResponse<MemberResponseDto> createMember(@Validated @RequestBody MemberCreationDto memberCreationDto) {
         Member member = memberConverter.convertMember(memberCreationDto);
         Member saved = memberService.saveMember(member);

@@ -24,6 +24,8 @@ import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.docu
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -87,6 +89,10 @@ class BoardControllerTest {
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andDo(document("board-update",
+//                        pathParameters(
+//                                parameterWithName("id").description("아이디")
+//                        )
+//                        ,
                         requestFields(
                                 fieldWithPath("title").type(JsonFieldType.STRING).description("updatedTitle"),
                                 fieldWithPath("content").type(JsonFieldType.STRING).description("updatedContent")
