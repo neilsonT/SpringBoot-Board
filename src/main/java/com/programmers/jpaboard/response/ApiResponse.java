@@ -23,6 +23,10 @@ public class ApiResponse<T> {
         serverDatetime = LocalDateTime.now();
     }
 
+    public static ApiResponse ok(String message){
+        return new ApiResponse(HttpStatus.OK.value(), message, null);
+    }
+
     public static <T> ApiResponse<T> ok(String message, T data) {
         return new ApiResponse<>(HttpStatus.OK.value(), message, data);
     }

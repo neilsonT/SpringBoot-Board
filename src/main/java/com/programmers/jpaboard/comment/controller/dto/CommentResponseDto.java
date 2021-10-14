@@ -1,11 +1,11 @@
-package com.programmers.jpaboard.reply.controller.dto;
+package com.programmers.jpaboard.comment.controller.dto;
 
 import lombok.Builder;
 import lombok.Getter;
 
 @Builder
 @Getter
-public class ReplyResponseDto {
+public class CommentResponseDto {
 
     private final Long id;
     private final String content;

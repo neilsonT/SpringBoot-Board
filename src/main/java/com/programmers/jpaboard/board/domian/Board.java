@@ -3,14 +3,12 @@ package com.programmers.jpaboard.board.domian;
 import com.programmers.jpaboard.DateEntity;
 import com.programmers.jpaboard.board.domian.vo.Content;
 import com.programmers.jpaboard.board.domian.vo.Title;
-import com.programmers.jpaboard.member.domain.Member;
-import com.programmers.jpaboard.reply.domain.Reply;
+import com.programmers.jpaboard.comment.domain.Comment;
 import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @Entity
 @Table(name = "board")
@@ -30,7 +28,7 @@ public class Board extends DateEntity {
     private Content content;
 
     @OneToMany(mappedBy = "board")
-    private List<Reply> replies = new ArrayList<>();
+    private List<Comment> replies = new ArrayList<>();
 
     @Builder
     public Board(String title, String content) {
@@ -55,7 +53,7 @@ public class Board extends DateEntity {
         return content.getContent();
     }
 
-    public List<Reply> getReplies() {
+    public List<Comment> getReplies() {
         return replies;
     }
 }

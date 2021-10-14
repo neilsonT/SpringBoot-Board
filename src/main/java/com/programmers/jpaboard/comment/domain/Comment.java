@@ -1,18 +1,16 @@
-package com.programmers.jpaboard.reply.domain;
+package com.programmers.jpaboard.comment.domain;
 
 import com.programmers.jpaboard.DateEntity;
 import com.programmers.jpaboard.board.domian.Board;
-import com.programmers.jpaboard.member.domain.Member;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.Objects;
 
 @Entity
 @Table(name = "reply")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EqualsAndHashCode(of = "id")
-public class Reply extends DateEntity {
+public class Comment extends DateEntity {
 
     private final int MAX_LENGTH = 100;
 
@@ -24,10 +22,6 @@ public class Reply extends DateEntity {
     private String content;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id", referencedColumnName = "id")
-    private Member member;
-
-    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "board_id", referencedColumnName = "id")
     private Board board;
 
@@ -35,23 +29,10 @@ public class Reply extends DateEntity {
     private Long parentId;
 
     @Builder
-    public Reply(String content, Member member, Board board, Long parentId){
+    public Comment(String content, Board board, Long parentId) {
         this.content = content;
-        this.member = member;
         this.board = board;
         this.parentId = parentId;
-    }
-
-    public void setMember(Member member) {
-        this.member = member;
-    }
-
-    public void setBoard(Board board) {
-        if (Objects.nonNull(this.board)) {
-            this.board.getReplies().remove(this);
-        }
-        this.board = board;
-        board.getReplies().add(this);
     }
 
     public Long getId() {
@@ -62,15 +43,15 @@ public class Reply extends DateEntity {
         return content;
     }
 
-    public Member getMember() {
-        return member;
-    }
-
     public Board getBoard() {
         return board;
     }
 
     public Long getParentId() {
         return parentId;
+    }
+
+    public void changeContent(String content) {
+        this.content = content;
     }
 }

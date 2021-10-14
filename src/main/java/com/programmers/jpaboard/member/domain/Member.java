@@ -1,11 +1,9 @@
 package com.programmers.jpaboard.member.domain;
 
 import com.programmers.jpaboard.DateEntity;
-import com.programmers.jpaboard.board.domian.Board;
 import com.programmers.jpaboard.member.domain.vo.Age;
 import com.programmers.jpaboard.member.domain.vo.Hobby;
 import com.programmers.jpaboard.member.domain.vo.Name;
-import com.programmers.jpaboard.reply.domain.Reply;
 import lombok.*;
 
 import javax.persistence.*;
