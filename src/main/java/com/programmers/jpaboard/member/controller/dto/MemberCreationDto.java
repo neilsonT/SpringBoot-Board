@@ -2,10 +2,7 @@ package com.programmers.jpaboard.member.controller.dto;
 
 import com.programmers.jpaboard.member.domain.vo.Age;
 import com.programmers.jpaboard.member.domain.vo.Name;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.Range;
 
@@ -16,8 +13,8 @@ import javax.validation.constraints.Size;
 import java.util.List;
 
 @Getter
-@Setter
 @NoArgsConstructor
+@AllArgsConstructor
 public class MemberCreationDto {
     @NotBlank
     @Pattern(regexp = Name.NAME_REGEXR)
