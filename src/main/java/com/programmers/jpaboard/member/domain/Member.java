@@ -21,7 +21,7 @@ public class Member extends DateEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "member_id")
+    @Column(name = "id")
     private Long id;
 
     @Embedded
@@ -41,10 +41,6 @@ public class Member extends DateEntity {
         this.hobbies = hobbies.stream()
                 .map(Hobby::new)
                 .collect(Collectors.toList());
-    }
-
-    public void addBoard(Board board) {
-        board.setMember(this);
     }
 
     public void changeHobbies(List<String> hobbies) {

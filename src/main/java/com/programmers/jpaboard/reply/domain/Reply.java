@@ -43,10 +43,6 @@ public class Reply extends DateEntity {
     }
 
     public void setMember(Member member) {
-        if (Objects.nonNull(this.member)) {
-            this.member.getReplies().remove(this);
-        }
-        member.getReplies().add(this);
         this.member = member;
     }
 

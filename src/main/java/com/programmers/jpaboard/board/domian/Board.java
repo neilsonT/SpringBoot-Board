@@ -20,7 +20,7 @@ public class Board extends DateEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "board_id")
+    @Column(name = "id")
     private Long id;
 
     @Embedded

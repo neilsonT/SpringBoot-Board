@@ -49,12 +49,5 @@ public class BoardService {
 
         board.update(newBoard.getTitle(), newBoard.getContent());
         return this.boardConverter.convertBoardResponseDto(board);
-
-//        this.boardRepository
-//                .findById(boardId)
-//                .ifPresentOrElse(
-//                        board -> board.update(newBoard.getTitle(), newBoard.getContent()),
-//                        () -> { throw new BoardNotFoundException(boardId); }
-//                );
     }
 }
