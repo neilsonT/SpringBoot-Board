@@ -7,8 +7,10 @@ import com.programmers.jpaboard.comment.controller.dto.CommentCreationDto;
 import com.programmers.jpaboard.comment.controller.dto.CommentResponseDto;
 import com.programmers.jpaboard.comment.controller.dto.CommentUpdateDto;
 import com.programmers.jpaboard.comment.converter.CommentConverter;
+import com.programmers.jpaboard.comment.domain.ChildComment;
 import com.programmers.jpaboard.comment.domain.Comment;
 import com.programmers.jpaboard.comment.exception.CommentNotFoundException;
+import com.programmers.jpaboard.comment.repository.ChildCommentRepository;
 import com.programmers.jpaboard.comment.repository.CommentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,6 +23,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class CommentService {
 
+    private final ChildCommentRepository childCommentRepository;
     private final CommentRepository commentRepository;
     private final BoardRepository boardRepository;
     private final CommentConverter commentConverter;
@@ -70,4 +73,5 @@ public class CommentService {
                         });
         return commentId;
     }
+
 }
