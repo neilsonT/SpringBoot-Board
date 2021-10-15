@@ -50,4 +50,10 @@ public class BoardService {
         board.update(newBoard.getTitle(), newBoard.getContent());
         return this.boardConverter.convertBoardResponseDto(board);
     }
+
+    @Transactional
+    public Long deleteBoard(Long boardId) {
+        boardRepository.deleteById(boardId);
+        return boardId;
+    }
 }
