@@ -63,7 +63,11 @@ public class CommentService {
 
     @Transactional
     public Long deleteComment(Long commentId) {
-        commentRepository.deleteById(commentId);
+        commentRepository.findById(commentId)
+                .ifPresentOrElse(commentRepository::delete,
+                        () -> {
+                            throw new CommentNotFoundException(commentId);
+                        });
         return commentId;
     }
 }

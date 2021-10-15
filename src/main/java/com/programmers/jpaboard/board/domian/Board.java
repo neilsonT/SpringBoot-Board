@@ -5,6 +5,8 @@ import com.programmers.jpaboard.board.domian.vo.Content;
 import com.programmers.jpaboard.board.domian.vo.Title;
 import com.programmers.jpaboard.comment.domain.Comment;
 import lombok.*;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -14,6 +16,8 @@ import java.util.List;
 @Table(name = "board")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EqualsAndHashCode(of = "id")
+@Where(clause = "deleted = false")
+@SQLDelete(sql = "UPDATE board SET deleted = true WHERE id = ?")
 public class Board extends DateEntity {
 
     @Id
@@ -29,6 +33,9 @@ public class Board extends DateEntity {
 
     @OneToMany(mappedBy = "board")
     private List<Comment> replies = new ArrayList<>();
+
+    @Column(nullable = false, columnDefinition = "boolean default false")
+    private boolean deleted;
 
     @Builder
     public Board(String title, String content) {

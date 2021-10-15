@@ -3,6 +3,8 @@ package com.programmers.jpaboard.comment.domain;
 import com.programmers.jpaboard.DateEntity;
 import com.programmers.jpaboard.board.domian.Board;
 import lombok.*;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 
@@ -10,6 +12,8 @@ import javax.persistence.*;
 @Table(name = "reply")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EqualsAndHashCode(of = "id")
+@Where(clause = "deleted = false")
+@SQLDelete(sql = "UPDATE comment SET deleted = true WHERE id = ?")
 public class Comment extends DateEntity {
 
     private final int MAX_LENGTH = 100;
@@ -27,6 +31,9 @@ public class Comment extends DateEntity {
 
     @Column(name = "parent_id")
     private Long parentId;
+
+    @Column(nullable = false, columnDefinition = "boolean deafult false")
+    private boolean deleted;
 
     @Builder
     public Comment(String content, Board board, Long parentId) {
