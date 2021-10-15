@@ -1,8 +1,6 @@
 package com.programmers.jpaboard.board.exhandler;
 
 import com.programmers.jpaboard.board.exception.BoardNotFoundException;
-import com.programmers.jpaboard.board.exhandler.ErrorResult;
-import com.programmers.jpaboard.board.exhandler.ErrorStatus;
 import com.programmers.jpaboard.response.ApiResponse;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
@@ -17,9 +15,9 @@ import java.util.concurrent.ConcurrentHashMap;
 public class BoardControllerAdvice {
 
     @ExceptionHandler
-    public ApiResponse<ErrorResult> handleBoardNotFoundException(BoardNotFoundException exception) {
-        ErrorResult errorResult = new ErrorResult(exception.getClass().getSimpleName(), exception.getMessage());
-        return ApiResponse.fail(ErrorStatus.BOARD_NOT_FOUND.getCode(), ErrorStatus.BOARD_NOT_FOUND.getMessage(), errorResult);
+    public ApiResponse<BoardErrorResult> handleBoardNotFoundException(BoardNotFoundException exception) {
+        BoardErrorResult boardErrorResult = new BoardErrorResult(exception.getClass().getSimpleName(), exception.getMessage());
+        return ApiResponse.fail(BoardErrorStatus.BOARD_NOT_FOUND.getCode(), BoardErrorStatus.BOARD_NOT_FOUND.getMessage(), boardErrorResult);
     }
 
     @ExceptionHandler
@@ -31,7 +29,7 @@ public class BoardControllerAdvice {
                         error -> putError(error, errors)
                 );
 
-        return ApiResponse.fail(ErrorStatus.METHOD_ARGUMENT_NOT_VALID.getCode(), ErrorStatus.METHOD_ARGUMENT_NOT_VALID.getMessage(), errors);
+        return ApiResponse.fail(BoardErrorStatus.METHOD_ARGUMENT_NOT_VALID.getCode(), BoardErrorStatus.METHOD_ARGUMENT_NOT_VALID.getMessage(), errors);
     }
 
     private void putError(ObjectError error, Map<String, String> errors) {
@@ -39,8 +37,8 @@ public class BoardControllerAdvice {
     }
 
     @ExceptionHandler
-    public ApiResponse<ErrorResult> handleException(Exception exception) {
-        ErrorResult errorResult = new ErrorResult(exception.getClass().getSimpleName(), exception.getMessage());
-        return ApiResponse.fail(ErrorStatus.INTERNAL_SERVER_ERROR.getCode(), ErrorStatus.INTERNAL_SERVER_ERROR.getMessage(), errorResult);
+    public ApiResponse<BoardErrorResult> handleException(Exception exception) {
+        BoardErrorResult boardErrorResult = new BoardErrorResult(exception.getClass().getSimpleName(), exception.getMessage());
+        return ApiResponse.fail(BoardErrorStatus.INTERNAL_SERVER_ERROR.getCode(), BoardErrorStatus.INTERNAL_SERVER_ERROR.getMessage(), boardErrorResult);
     }
 }
