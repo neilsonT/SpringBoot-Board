@@ -1,4 +1,4 @@
-package com.programmers.jpaboard.board.exhandler.advice;
+package com.programmers.jpaboard.board.exhandler;
 
 import com.programmers.jpaboard.board.exception.BoardNotFoundException;
 import com.programmers.jpaboard.board.exhandler.ErrorResult;
