@@ -2,43 +2,41 @@ package com.programmers.jpaboard.comment.domain;
 
 import com.programmers.jpaboard.DateEntity;
 import com.programmers.jpaboard.board.domian.Board;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 
 @Entity
-@Table(name = "comment")
+@Table(name = "child_comment")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EqualsAndHashCode(of = "id")
 @Where(clause = "deleted = false")
 @SQLDelete(sql = "UPDATE comment SET deleted = true WHERE id = ?")
-public class Comment extends DateEntity {
-
-    public static final int MAX_LENGTH = 100;
+public class ChildComment extends DateEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(length = MAX_LENGTH)
+    @Column(length = Comment.MAX_LENGTH)
     private String content;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "board_id", referencedColumnName = "id")
-    private Board board;
-
-    @Column(name = "num_of_child_comment")
-    private int numOfChildComment;
+    @JoinColumn(name = "comment_id", referencedColumnName = "id")
+    private Comment comment;
 
     @Column(nullable = false, columnDefinition = "boolean default false")
     private boolean deleted;
 
     @Builder
-    public Comment(String content, Board board) {
+    public ChildComment(String content, Comment comment) {
         this.content = content;
-        this.board = board;
+        this.comment = comment;
     }
 
     public Long getId() {
@@ -49,20 +47,8 @@ public class Comment extends DateEntity {
         return content;
     }
 
-    public Board getBoard() {
-        return board;
-    }
-
-    public int getNumOfChildComment() {
-        return numOfChildComment;
-    }
-
-    public void plusChildNum(){
-        this.numOfChildComment++;
-    }
-
-    public void minusChildNum(){
-        this.numOfChildComment--;
+    public Comment getComment() {
+        return comment;
     }
 
     public void changeContent(String content) {

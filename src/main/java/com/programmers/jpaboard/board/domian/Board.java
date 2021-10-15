@@ -37,6 +37,9 @@ public class Board extends DateEntity {
     @Column(nullable = false, columnDefinition = "boolean default false")
     private boolean deleted;
 
+    @Column(name = "num_of_comment")
+    private int numOfComment;
+
     @Builder
     public Board(String title, String content) {
         this.title = new Title(title);
@@ -46,6 +49,14 @@ public class Board extends DateEntity {
     public void update(String title, String content) {
         this.title = new Title(title);
         this.content = new Content(content);
+    }
+
+    public void plusCommentNum(){
+        this.numOfComment++;
+    }
+
+    public void minusCommentNum(){
+        this.numOfComment--;
     }
 
     public Long getId() {
