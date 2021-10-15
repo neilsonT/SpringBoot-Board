@@ -9,7 +9,7 @@ import org.hibernate.annotations.Where;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "reply")
+@Table(name = "comment")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EqualsAndHashCode(of = "id")
 @Where(clause = "deleted = false")
@@ -32,7 +32,7 @@ public class Comment extends DateEntity {
     @Column(name = "parent_id")
     private Long parentId;
 
-    @Column(nullable = false, columnDefinition = "boolean deafult false")
+    @Column(nullable = false, columnDefinition = "boolean default false")
     private boolean deleted;
 
     @Builder

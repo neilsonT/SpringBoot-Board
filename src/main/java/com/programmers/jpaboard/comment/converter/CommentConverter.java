@@ -11,8 +11,8 @@ public class CommentConverter {
 
     public Comment convertComment(CommentCreationDto commentCreationDto, Board board) {
         return Comment.builder()
-                .board(board)
                 .content(commentCreationDto.getContent())
+                .board(board)
                 .parentId(commentCreationDto.getParentId())
                 .build();
     }
