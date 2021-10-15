@@ -17,10 +17,10 @@ public class CommentConverter {
                 .build();
     }
 
-    public ChildComment convertChildComment(CommentCreationDto commentCreationDto, Comment comment){
+    public ChildComment convertChildComment(CommentCreationDto commentCreationDto, Comment parent){
         return ChildComment.builder()
                 .content(commentCreationDto.getContent())
-                .comment(comment)
+                .parent(parent)
                 .build();
     }
 

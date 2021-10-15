@@ -31,9 +31,6 @@ public class Board extends DateEntity {
     @Embedded
     private Content content;
 
-    @OneToMany(mappedBy = "board")
-    private List<Comment> replies = new ArrayList<>();
-
     @Column(nullable = false, columnDefinition = "boolean default false")
     private boolean deleted;
 
@@ -69,9 +66,5 @@ public class Board extends DateEntity {
 
     public String getContent() {
         return content.getContent();
-    }
-
-    public List<Comment> getReplies() {
-        return replies;
     }
 }

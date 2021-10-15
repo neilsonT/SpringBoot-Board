@@ -1,6 +1,5 @@
 package com.programmers.jpaboard.comment.service;
 
-import com.programmers.jpaboard.board.repository.BoardRepository;
 import com.programmers.jpaboard.comment.controller.dto.CommentCreationDto;
 import com.programmers.jpaboard.comment.controller.dto.CommentResponseDto;
 import com.programmers.jpaboard.comment.controller.dto.CommentUpdateDto;
@@ -47,7 +46,7 @@ public class ChildCommentService {
 
     @Transactional(readOnly = true)
     public List<CommentResponseDto> lookupAllChildCommentByCommentId(Long commentId) {
-        return childCommentRepository.findByParentId(commentId).stream()
+        return childCommentRepository.findByParent(commentId).stream()
                 .map(commentConverter::convertCommentResponseDto)
                 .collect(Collectors.toList());
     }

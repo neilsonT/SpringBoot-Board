@@ -6,5 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface ChildCommentRepository extends JpaRepository<ChildComment, Long> {
-    List<ChildComment> findByParentId(Long commentId);
+    List<ChildComment> findByParent(Long parentId);
 }

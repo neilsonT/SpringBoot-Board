@@ -1,7 +1,6 @@
 package com.programmers.jpaboard.comment.domain;
 
 import com.programmers.jpaboard.DateEntity;
-import com.programmers.jpaboard.board.domian.Board;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -27,16 +26,16 @@ public class ChildComment extends DateEntity {
     private String content;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "comment_id", referencedColumnName = "id")
-    private Comment comment;
+    @JoinColumn(name = "parent_id", referencedColumnName = "id")
+    private Comment parent;
 
     @Column(nullable = false, columnDefinition = "boolean default false")
     private boolean deleted;
 
     @Builder
-    public ChildComment(String content, Comment comment) {
+    public ChildComment(String content, Comment parent) {
         this.content = content;
-        this.comment = comment;
+        this.parent = parent;
     }
 
     public Long getId() {
@@ -47,8 +46,8 @@ public class ChildComment extends DateEntity {
         return content;
     }
 
-    public Comment getComment() {
-        return comment;
+    public Comment getParent() {
+        return parent;
     }
 
     public void changeContent(String content) {
