@@ -1,17 +1,15 @@
-package com.programmers.jpaboard.comment.service;
+package com.programmers.jpaboard.board.service;
 
 import com.programmers.jpaboard.board.domian.Board;
 import com.programmers.jpaboard.board.exception.BoardNotFoundException;
 import com.programmers.jpaboard.board.repository.BoardRepository;
-import com.programmers.jpaboard.comment.controller.dto.CommentCreationDto;
-import com.programmers.jpaboard.comment.controller.dto.CommentResponseDto;
-import com.programmers.jpaboard.comment.controller.dto.CommentUpdateDto;
-import com.programmers.jpaboard.comment.converter.CommentConverter;
-import com.programmers.jpaboard.comment.domain.ChildComment;
-import com.programmers.jpaboard.comment.domain.Comment;
-import com.programmers.jpaboard.comment.exception.CommentNotFoundException;
-import com.programmers.jpaboard.comment.repository.ChildCommentRepository;
-import com.programmers.jpaboard.comment.repository.CommentRepository;
+import com.programmers.jpaboard.board.controller.dto.CommentCreationDto;
+import com.programmers.jpaboard.board.controller.dto.CommentResponseDto;
+import com.programmers.jpaboard.board.controller.dto.CommentUpdateDto;
+import com.programmers.jpaboard.board.converter.CommentConverter;
+import com.programmers.jpaboard.board.domian.Comment;
+import com.programmers.jpaboard.board.exception.CommentNotFoundException;
+import com.programmers.jpaboard.board.repository.CommentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,7 +21,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class CommentService {
 
-    private final ChildCommentRepository childCommentRepository;
     private final CommentRepository commentRepository;
     private final BoardRepository boardRepository;
     private final CommentConverter commentConverter;

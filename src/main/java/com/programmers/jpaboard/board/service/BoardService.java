@@ -7,7 +7,6 @@ import com.programmers.jpaboard.board.converter.BoardConverter;
 import com.programmers.jpaboard.board.domian.Board;
 import com.programmers.jpaboard.board.exception.BoardNotFoundException;
 import com.programmers.jpaboard.board.repository.BoardRepository;
-import com.programmers.jpaboard.comment.exception.CommentNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

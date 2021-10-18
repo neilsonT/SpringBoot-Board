@@ -3,14 +3,11 @@ package com.programmers.jpaboard.board.domian;
 import com.programmers.jpaboard.DateEntity;
 import com.programmers.jpaboard.board.domian.vo.Content;
 import com.programmers.jpaboard.board.domian.vo.Title;
-import com.programmers.jpaboard.comment.domain.Comment;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Table(name = "board")

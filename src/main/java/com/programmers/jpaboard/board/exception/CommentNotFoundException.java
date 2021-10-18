@@ -1,4 +1,4 @@
-package com.programmers.jpaboard.comment.exception;
+package com.programmers.jpaboard.board.exception;
 
 import java.text.MessageFormat;
 

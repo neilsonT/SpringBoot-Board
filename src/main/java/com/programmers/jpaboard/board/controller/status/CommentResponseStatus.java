@@ -1,4 +1,4 @@
-package com.programmers.jpaboard.comment.controller.status;
+package com.programmers.jpaboard.board.controller.status;
 
 import lombok.Getter;
 

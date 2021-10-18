@@ -1,10 +1,10 @@
-package com.programmers.jpaboard.comment.controller;
+package com.programmers.jpaboard.board.controller;
 
-import com.programmers.jpaboard.comment.controller.dto.CommentCreationDto;
-import com.programmers.jpaboard.comment.controller.dto.CommentResponseDto;
-import com.programmers.jpaboard.comment.controller.dto.CommentUpdateDto;
-import com.programmers.jpaboard.comment.controller.status.CommentResponseStatus;
-import com.programmers.jpaboard.comment.service.CommentService;
+import com.programmers.jpaboard.board.controller.dto.CommentCreationDto;
+import com.programmers.jpaboard.board.controller.dto.CommentResponseDto;
+import com.programmers.jpaboard.board.controller.dto.CommentUpdateDto;
+import com.programmers.jpaboard.board.controller.status.CommentResponseStatus;
+import com.programmers.jpaboard.board.service.CommentService;
 import com.programmers.jpaboard.response.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;

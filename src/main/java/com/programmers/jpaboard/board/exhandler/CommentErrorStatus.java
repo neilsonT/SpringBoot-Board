@@ -1,4 +1,4 @@
-package com.programmers.jpaboard.comment.exhandler;
+package com.programmers.jpaboard.board.exhandler;
 
 import lombok.Getter;
 import org.springframework.http.HttpStatus;

@@ -1,8 +1,6 @@
-package com.programmers.jpaboard.comment.exhandler;
+package com.programmers.jpaboard.board.exhandler;
 
-import com.programmers.jpaboard.board.exhandler.BoardErrorResult;
-import com.programmers.jpaboard.board.exhandler.BoardErrorStatus;
-import com.programmers.jpaboard.comment.exception.CommentNotFoundException;
+import com.programmers.jpaboard.board.exception.CommentNotFoundException;
 import com.programmers.jpaboard.response.ApiResponse;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;

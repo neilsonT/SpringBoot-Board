@@ -1,4 +1,4 @@
-package com.programmers.jpaboard.comment.controller.dto;
+package com.programmers.jpaboard.board.controller.dto;
 
 import lombok.Builder;
 import lombok.Getter;
