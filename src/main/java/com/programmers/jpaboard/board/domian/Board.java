@@ -3,21 +3,23 @@ package com.programmers.jpaboard.board.domian;
 import com.programmers.jpaboard.DateEntity;
 import com.programmers.jpaboard.board.domian.vo.Content;
 import com.programmers.jpaboard.board.domian.vo.Title;
-import com.programmers.jpaboard.member.domain.Member;
 import lombok.*;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
-import java.util.Objects;
 
 @Entity
 @Table(name = "board")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EqualsAndHashCode(of = "id")
+@Where(clause = "deleted = false")
+@SQLDelete(sql = "UPDATE board SET deleted = true WHERE id = ?")
 public class Board extends DateEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "board_id")
+    @Column(name = "id")
     private Long id;
 
     @Embedded
@@ -26,9 +28,11 @@ public class Board extends DateEntity {
     @Embedded
     private Content content;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)   // TODO: 로그인한 Member를 관리할 수 있게 되면 cascade 삭제
-    @JoinColumn(name = "member_id", referencedColumnName = "member_id")
-    private Member member;
+    @Column(nullable = false, columnDefinition = "boolean default false")
+    private boolean deleted;
+
+    @Column(name = "num_of_comment")
+    private int numOfComment;
 
     @Builder
     public Board(String title, String content) {
@@ -36,17 +40,18 @@ public class Board extends DateEntity {
         this.content = new Content(content);
     }
 
-    public void setMember(Member member) {
-        if (Objects.nonNull(this.member)) {
-            member.getBoards().remove(this);
-        }
-        this.member = member;
-        member.getBoards().add(this);
-    }
-
-    public void update(String title, String content) {
+    public Board update(String title, String content) {
         this.title = new Title(title);
         this.content = new Content(content);
+        return this;
+    }
+
+    public void plusCommentNum(){
+        this.numOfComment++;
+    }
+
+    public void minusCommentNum(){
+        this.numOfComment--;
     }
 
     public Long getId() {
@@ -59,9 +64,5 @@ public class Board extends DateEntity {
 
     public String getContent() {
         return content.getContent();
-    }
-
-    public Member getMember() {
-        return member;
     }
 }

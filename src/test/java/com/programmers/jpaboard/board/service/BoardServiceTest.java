@@ -1,115 +1,85 @@
 package com.programmers.jpaboard.board.service;
 
+import com.programmers.jpaboard.board.controller.dto.BoardCreationDto;
+import com.programmers.jpaboard.board.controller.dto.BoardResponseDto;
 import com.programmers.jpaboard.board.controller.dto.BoardUpdateDto;
-import com.programmers.jpaboard.board.domian.Board;
-import com.programmers.jpaboard.board.repository.BoardRepository;
-import com.programmers.jpaboard.member.domain.Member;
 import org.junit.jupiter.api.*;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.mockito.Mockito.when;
 
-@ExtendWith(MockitoExtension.class)
+@SpringBootTest
 class BoardServiceTest {
 
-    @Mock
-    private BoardRepository boardRepository;
-
-    private final Member member;
-    private final Board board;
-
-    public BoardServiceTest() {
-        member = Member.builder()
-                .age(10)
-                .name("name")
-                .hobbies(List.of("Table Tennis"))
-                .build();
-
-        // Given
-        board = Board.builder()
-                .title("SetupTitle")
-                .content("SetupContent")
-                .build();
-    }
+    @Autowired
+    private BoardService boardService;
 
     @Test
     @DisplayName("게시글을 저장한다")
+    @Transactional
     public void saveTest() {
         // Given
-        BoardService boardService = new BoardService(boardRepository);
-        when(boardRepository.save(board)).thenReturn(board);
-
-        Board board = Board.builder()
-                .title("title")
-                .content("content")
-                .build();
+        BoardCreationDto boardCreationDto = new BoardCreationDto("title", "content");
 
         // When
-        Board actual = boardService.saveBoard(board, member);
+        BoardResponseDto responseDto = boardService.saveBoard(boardCreationDto);
 
         // Then
-        assertThat(actual).isEqualTo(board);
+        assertThat(responseDto.getTitle()).isEqualTo(boardCreationDto.getTitle());
+        assertThat(responseDto.getContent()).isEqualTo(boardCreationDto.getContent());
     }
 
     @Test
     @DisplayName("게시글 한 개를 조회한다.")
+    @Transactional
     public void findOneTest() {
         // Given
-        BoardService boardService = new BoardService(boardRepository);
-        when(boardRepository.findById(board.getId())).thenReturn(Optional.of(board));
+        BoardCreationDto boardCreationDto = new BoardCreationDto("title", "content");
+        BoardResponseDto responseDto = boardService.saveBoard(boardCreationDto);
 
         // When
-        Board actual = boardService.findOne(board.getId());
+        BoardResponseDto actual = boardService.findOne(responseDto.getId());
 
         // Then
-        assertThat(actual).isEqualTo(board);
+        assertThat(actual.getId()).isEqualTo(responseDto.getId());
     }
 
     @Test
     @DisplayName("모든 게시글을 조회한다")
+    @Transactional
     public void findAllTest() {
         // Given
-        BoardService boardService = new BoardService(boardRepository);
-
-        Board newBoard = Board.builder()
-                .title("newTitle")
-                .content("newContent")
-                .build();
-        boardService.saveBoard(newBoard, member);
-        when(boardRepository.findAll()).thenReturn(List.of(board, newBoard));
+        BoardCreationDto boardCreationDto = new BoardCreationDto("dev", "course");
+        for (int i = 0; i < 3; i++) {
+            boardService.saveBoard(boardCreationDto);
+        }
 
         // When
-        List<Board> all = boardService.findAll();
+        List<BoardResponseDto> all = boardService.findAll();
 
         // Then
-        assertThat(all).containsExactlyInAnyOrder(newBoard, board);
+        assertThat(all.size()).isEqualTo(3);
     }
 
     @Test
     @DisplayName("게시글을 수정한다")
+    @Transactional
     public void updateTest() {
         // Given
-        BoardService boardService = new BoardService(boardRepository);
+        BoardCreationDto boardCreationDto = new BoardCreationDto("updatedTitle", "updatedContent");
+        BoardUpdateDto boardUpdateDto = new BoardUpdateDto("updatedTitle","updatedContent");
 
-        BoardUpdateDto boardUpdateDto = new BoardUpdateDto();
-        boardUpdateDto.setContent("updatedContent");
-        boardUpdateDto.setTitle("updatedTitle");
-
-        when(boardRepository.save(board)).thenReturn(board);
-        when(boardRepository.findById(board.getId())).thenReturn(Optional.of(board));
-
-        boardService.saveBoard(board, member);
+        BoardResponseDto responseDto = boardService.saveBoard(boardCreationDto);
 
         // When
-        Board actual = boardService.updateBoard(board.getId(), boardUpdateDto);
+        BoardResponseDto actual = boardService.updateBoard(responseDto.getId(), boardUpdateDto);
 
         // Then
-        assertThat(actual).isEqualTo(board);
+        assertThat(actual.getTitle()).isEqualTo(boardUpdateDto.getTitle());
+        assertThat(actual.getContent()).isEqualTo(boardUpdateDto.getContent());
     }
 }

@@ -1,10 +1,10 @@
 package com.programmers.jpaboard.member.domain;
 
 import com.programmers.jpaboard.DateEntity;
-import com.programmers.jpaboard.board.domian.Board;
 import com.programmers.jpaboard.member.domain.vo.Age;
 import com.programmers.jpaboard.member.domain.vo.Hobby;
 import com.programmers.jpaboard.member.domain.vo.Name;
+import com.programmers.jpaboard.security.domain.Group;
 import lombok.*;
 
 import javax.persistence.*;
@@ -15,14 +15,17 @@ import java.util.stream.Collectors;
 @Entity
 @Table(name = "member")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
 @EqualsAndHashCode(of = "id")
 public class Member extends DateEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "member_id")
+    @Column(name = "id")
     private Long id;
+
+    private String userId;
+
+    private String password;
 
     @Embedded
     private Name name;
@@ -34,20 +37,19 @@ public class Member extends DateEntity {
     @JoinColumn(name = "member_id")
     private List<Hobby> hobbies = new ArrayList<>();
 
-    @OneToMany(mappedBy = "member", cascade = CascadeType.PERSIST, orphanRemoval = true)
-    private final List<Board> boards = new ArrayList<>();
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "group_id", referencedColumnName = "id")
+    private Group group;
 
     @Builder
-    public Member(String name, int age, List<String> hobbies) {
+    public Member(String userId, String name, int age, List<String> hobbies, Group group) {
+        this.userId = userId;
         this.name = new Name(name);
         this.age = new Age(age);
         this.hobbies = hobbies.stream()
                 .map(Hobby::new)
                 .collect(Collectors.toList());
-    }
-
-    public void addBoard(Board board) {
-        board.setMember(this);
+        this.group = group;
     }
 
     public void changeHobbies(List<String> hobbies) {
@@ -60,6 +62,10 @@ public class Member extends DateEntity {
         return id;
     }
 
+    public String getUserId() {
+        return userId;
+    }
+
     public String getName() {
         return name.getName();
     }
@@ -68,13 +74,21 @@ public class Member extends DateEntity {
         return age.getAge();
     }
 
-    public List<String> getHobby() {
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public List<String> getHobbies() {
         return hobbies.stream()
                 .map(Hobby::getHobby)
                 .collect(Collectors.toList());
     }
 
-    public List<Board> getBoards() {
-        return boards;
+    public Group getGroup() {
+        return group;
     }
 }

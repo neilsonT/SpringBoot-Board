@@ -18,6 +18,7 @@ public class BoardConverter {
 
     public BoardResponseDto convertBoardResponseDto(Board board) {
         return BoardResponseDto.builder()
+                .id(board.getId())
                 .title(board.getTitle())
                 .content(board.getContent())
                 .build();

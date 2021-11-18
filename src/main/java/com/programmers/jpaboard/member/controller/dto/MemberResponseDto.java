@@ -8,7 +8,7 @@ import java.util.List;
 
 @Getter
 @Builder
-public class MemberResponseDto implements Serializable {
+public class MemberResponseDto{
     private final String name;
     private final int age;
     private final List<String> hobbies;

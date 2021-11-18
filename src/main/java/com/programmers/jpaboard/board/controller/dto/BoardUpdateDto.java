@@ -2,6 +2,7 @@ package com.programmers.jpaboard.board.controller.dto;
 
 import com.programmers.jpaboard.board.domian.vo.Content;
 import com.programmers.jpaboard.board.domian.vo.Title;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -10,8 +11,8 @@ import org.hibernate.validator.constraints.Length;
 import javax.validation.constraints.NotBlank;
 
 @Getter
-@Setter
 @NoArgsConstructor
+@AllArgsConstructor
 public class BoardUpdateDto {
 
     @NotBlank
