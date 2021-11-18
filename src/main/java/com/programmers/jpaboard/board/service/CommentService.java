@@ -25,6 +25,29 @@ public class CommentService {
     private final BoardRepository boardRepository;
     private final CommentConverter commentConverter;
 
+    @Transactional(readOnly = true)
+    public CommentResponseDto lookupComment(Long commentId) {
+        Comment comment = commentRepository.findById(commentId)
+                .orElseThrow(() -> new CommentNotFoundException(commentId));
+
+        return commentConverter.convertCommentResponseDto(comment);
+    }
+
+    @Transactional(readOnly = true)
+    public List<CommentResponseDto> lookupAllComment() {
+        return commentRepository.findAll()
+                .stream()
+                .map(commentConverter::convertCommentResponseDto)
+                .collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public List<CommentResponseDto> lookupChildCommentList(Long parentId) {
+        return commentRepository.findByParentId(parentId).stream()
+                .map(commentConverter::convertCommentResponseDto)
+                .collect(Collectors.toList());
+    }
+
     @Transactional
     public CommentResponseDto saveComment(CommentCreationDto commentCreationDto, Long boardId) {
         Board board = boardRepository.findById(boardId)
@@ -45,22 +68,6 @@ public class CommentService {
         return commentConverter.convertCommentResponseDto(comment);
     }
 
-    @Transactional(readOnly = true)
-    public CommentResponseDto lookupComment(Long commentId) {
-        Comment comment = commentRepository.findById(commentId)
-                .orElseThrow(() -> new CommentNotFoundException(commentId));
-
-        return commentConverter.convertCommentResponseDto(comment);
-    }
-
-    @Transactional(readOnly = true)
-    public List<CommentResponseDto> lookupAllComment() {
-        return commentRepository.findAll()
-                .stream()
-                .map(commentConverter::convertCommentResponseDto)
-                .collect(Collectors.toList());
-    }
-
     @Transactional
     public Long deleteComment(Long commentId) {
         commentRepository.findById(commentId)
@@ -70,5 +77,4 @@ public class CommentService {
                         });
         return commentId;
     }
-
 }

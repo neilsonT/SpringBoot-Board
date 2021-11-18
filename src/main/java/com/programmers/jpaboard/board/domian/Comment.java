@@ -1,7 +1,6 @@
 package com.programmers.jpaboard.board.domian;
 
 import com.programmers.jpaboard.DateEntity;
-import com.programmers.jpaboard.board.domian.Board;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
@@ -32,13 +31,17 @@ public class Comment extends DateEntity {
     @Column(name = "num_of_child_comment")
     private int numOfChildComment;
 
+    @Column(name = "parent_id")
+    private Long parentId;
+
     @Column(nullable = false, columnDefinition = "boolean default false")
     private boolean deleted;
 
     @Builder
-    public Comment(String content, Board board) {
+    public Comment(String content, Board board, Long parentId) {
         this.content = content;
         this.board = board;
+        this.parentId = parentId;
     }
 
     public Long getId() {

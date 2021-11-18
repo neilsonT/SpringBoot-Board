@@ -40,9 +40,10 @@ public class Board extends DateEntity {
         this.content = new Content(content);
     }
 
-    public void update(String title, String content) {
+    public Board update(String title, String content) {
         this.title = new Title(title);
         this.content = new Content(content);
+        return this;
     }
 
     public void plusCommentNum(){

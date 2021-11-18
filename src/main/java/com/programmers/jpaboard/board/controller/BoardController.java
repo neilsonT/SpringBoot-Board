@@ -1,14 +1,15 @@
 package com.programmers.jpaboard.board.controller;
 
-import com.programmers.jpaboard.board.controller.dto.BoardCreationDto;
-import com.programmers.jpaboard.board.controller.dto.BoardResponseDto;
-import com.programmers.jpaboard.board.controller.dto.BoardUpdateDto;
+import com.programmers.jpaboard.board.controller.dto.*;
+import com.programmers.jpaboard.board.controller.status.CommentResponseStatus;
 import com.programmers.jpaboard.board.converter.BoardConverter;
 import com.programmers.jpaboard.board.domian.Board;
 import com.programmers.jpaboard.board.service.BoardService;
+import com.programmers.jpaboard.board.service.CommentService;
 import com.programmers.jpaboard.response.ApiResponse;
 import com.programmers.jpaboard.board.controller.status.BoardResponseStatus;
 import com.programmers.jpaboard.member.domain.Member;
+import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,13 +19,11 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1/boards")
+@RequiredArgsConstructor
 public class BoardController {
 
     private final BoardService boardService;
-
-    public BoardController(BoardService boardService) {
-        this.boardService = boardService;
-    }
+    private final CommentService commentService;
 
     @PostMapping
     public ApiResponse<BoardResponseDto> createBoard(@Valid @RequestBody BoardCreationDto boardCreationDto) {
@@ -60,5 +59,42 @@ public class BoardController {
         Long deletedId = boardService.deleteBoard(boardId);
 
         return ApiResponse.ok(BoardResponseStatus.BOARD_DELETE_SUCCESS.getMessage(), deletedId);
+    }
+
+    /* ========================= 댓글 ===================== */
+
+    @PostMapping("/{boardId}/comments")
+    public ApiResponse<CommentResponseDto> createComment(@Valid @RequestBody CommentCreationDto commentCreationDto, @PathVariable Long boardId) {
+        CommentResponseDto commentResponseDto = commentService.saveComment(commentCreationDto, boardId);
+
+        return ApiResponse.ok(CommentResponseStatus.COMMENT_CREATION_SUCCESS.getMessage(), commentResponseDto);
+    }
+
+    @PutMapping("/{boardId}/comments/{commentId}")
+    public ApiResponse<CommentResponseDto> updateComment(@Valid @RequestBody CommentUpdateDto commentUpdateDto, @PathVariable Long boardId, @PathVariable Long commentId) {
+        CommentResponseDto commentResponseDto = commentService.updateComment(commentUpdateDto, commentId);
+
+        return ApiResponse.ok(CommentResponseStatus.COMMENT_UPDATE_SUCCESS.getMessage(), commentResponseDto);
+    }
+
+    @GetMapping("/{boardId}/comments/{commentId}")
+    public ApiResponse<CommentResponseDto> lookupComment(@PathVariable Long boardId, @PathVariable Long commentId) {
+        CommentResponseDto commentResponseDto = commentService.lookupComment(commentId);
+
+        return ApiResponse.ok(CommentResponseStatus.COMMENT_LOOKUP_SUCCESS.getMessage(), commentResponseDto);
+    }
+
+    @GetMapping("/{boardId}/comments")
+    public ApiResponse<List<CommentResponseDto>> lookupAllComment(@PathVariable Long boardId){
+        List<CommentResponseDto> commentResponseDtos = commentService.lookupAllComment();
+
+        return ApiResponse.ok(CommentResponseStatus.COMMENT_LOOKUP_ALL_SUCCESS.getMessage(), commentResponseDtos);
+    }
+
+    @DeleteMapping("/{boardId}/comments/{commentId}")
+    public ApiResponse<Long> deleteComment(@PathVariable Long boardId, @PathVariable Long commentId) {
+        Long deleteId = commentService.deleteComment(commentId);
+
+        return ApiResponse.ok(CommentResponseStatus.COMMENT_DELETE_SUCCESS.getMessage(), deleteId);
     }
 }

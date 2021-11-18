@@ -44,11 +44,11 @@ public class BoardService {
 
     @Transactional
     public BoardResponseDto updateBoard(Long boardId, BoardUpdateDto newBoard) {
-        Board board = boardRepository.findById(boardId)
+        return this.boardRepository
+                .findById(boardId)
+                .map(board -> board.update(newBoard.getTitle(), newBoard.getContent()))
+                .map(boardConverter::convertBoardResponseDto)
                 .orElseThrow(() -> new BoardNotFoundException(boardId));
-
-        board.update(newBoard.getTitle(), newBoard.getContent());
-        return this.boardConverter.convertBoardResponseDto(board);
     }
 
     @Transactional
