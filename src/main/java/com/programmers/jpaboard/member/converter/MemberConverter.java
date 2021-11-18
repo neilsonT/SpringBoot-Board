@@ -20,7 +20,7 @@ public class MemberConverter {
         return MemberResponseDto.builder()
                 .name(member.getName())
                 .age(member.getAge())
-                .hobbies(member.getHobby())
+                .hobbies(member.getHobbies())
                 .build();
     }
 }
